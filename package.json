@@ -1,0 +1,19 @@
+{
+  "name": "spreadsheet-page-break-app",
+  "version": "1.0.0",
+  "description": "Make spreadsheets printable",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/TehShrike/spreadsheet-page-break-app.git"
+  },
+  "author": "TehShrike",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/TehShrike/spreadsheet-page-break-app/issues"
+  },
+  "homepage": "https://github.com/TehShrike/spreadsheet-page-break-app#readme"
+}
