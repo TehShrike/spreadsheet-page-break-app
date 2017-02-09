@@ -1,13 +1,16 @@
 require('babel-polyfill')
 
 const StateRouter = require('abstract-state-router')
-const createStateWatcher = require('asr-active-state-watcher')
 const makeSvelteStateRenderer = require('svelte-state-renderer')
 const mannish = require('mannish')
 
 const mediator = mannish()
 
-const renderer = makeSvelteStateRenderer()
+const renderer = makeSvelteStateRenderer({
+	data: {
+		call: mediator.call
+	}
+})
 
 const context = {
 	mediator,
@@ -17,11 +20,6 @@ const context = {
 }
 
 const stateRouter = StateRouter(renderer, document.getElementById('container'))
-
-const stateWatcher = createStateWatcher(stateRouter)
-stateWatcher.addDomApiAttachListener(svelteComponent => {
-	svelteComponent.on('call', mediator.call)
-})
 
 mediator.provide('stateGo', stateRouter.go)
 
