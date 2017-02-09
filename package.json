@@ -4,7 +4,9 @@
   "description": "Make spreadsheets printable",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify client/index.js -o public/build.js",
+    "watch": "watchify client/index.js -o public/build.js -d"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,42 @@
   "bugs": {
     "url": "https://github.com/TehShrike/spreadsheet-page-break-app/issues"
   },
-  "homepage": "https://github.com/TehShrike/spreadsheet-page-break-app#readme"
+  "homepage": "https://github.com/TehShrike/spreadsheet-page-break-app#readme",
+  "dependencies": {
+    "abstract-state-router": "5.15.0",
+    "babel-plugin-transform-async-to-generator": "6.22.0",
+    "babel-polyfill": "6.22.0",
+    "babel-preset-es2015": "6.22.0",
+    "babel-register": "6.22.0",
+    "babelify": "7.3.0",
+    "browserify": "14.0.0",
+    "eventemitter3": "2.0.2",
+    "mannish": "git@github.com:TehShrike/mannish.git#single-provider-only",
+    "p-waterfall": "1.0.0",
+    "svelte-state-renderer": "1.1.0",
+    "sveltify": "1.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0",
+    "watchify": "3.9.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": "es2015",
+          "plugins": [
+            "transform-async-to-generator"
+          ]
+        }
+      ],
+      [
+        "sveltify"
+      ]
+    ]
+  },
+  "browser": {
+    "eventemitter": "eventemitter3"
+  }
 }
