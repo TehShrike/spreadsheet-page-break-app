@@ -12,7 +12,7 @@ module.exports = async function googleApiWrapper({ config, mediator }) {
 	Object.keys(internalApi).forEach(functionName => {
 		const fn = internalApi[functionName]
 
-		mediator.provide(`gapi ${functionName}`, fn)
+		mediator.provide(`gapi:${functionName}`, fn)
 	})
 }
 

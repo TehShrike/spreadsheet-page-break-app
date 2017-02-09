@@ -34,10 +34,10 @@ stateRouter.addState({
 	route: 'app',
 	template: require('./component/app.html'),
 	resolve: async (data, parameters) => {
-		const signedIn = await mediator.call('gapi isSignedIn')
+		const signedIn = await mediator.call('gapi:isSignedIn')
 
 		if (signedIn) {
-			return Promise.resolve({})
+			return {}
 		} else {
 			return Promise.reject({
 				redirectTo: {
@@ -52,6 +52,17 @@ stateRouter.addState({
 	name: 'app.selectSpreadsheet',
 	route: 'select-spreadsheet',
 	template: require('./component/selectSpreadsheet.html')
+})
+
+stateRouter.addState({
+	name: 'app.viewSpreadsheet',
+	route: 'view/:sheetId',
+	template: require('./component/viewSpreadsheet.html'),
+	resolve: async (data, { sheetId }) => {
+		console.log('loading', sheetId)
+
+		return {}
+	}
 })
 
 const statefulModules = [

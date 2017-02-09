@@ -11,7 +11,7 @@
 	export default {
 		methods: {
 			beginAuth() {
-				this.get('call')('gapi signIn').then(response => {
+				this.get('call')('gapi:signIn').then(response => {
 					this.get('call')('stateGo', 'app.selectSpreadsheet')
 				}, error => {
 					console.log('error', error)

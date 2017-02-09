@@ -1,3 +1,32 @@
 <h1>
-	Select Spreadsheet or whatever
+	Pick your spreadsheet
 </h1>
+<p>
+	Eventually this will be a fancy Google Docs picker.
+</p>
+<p>
+	For now, paste in the link to the spreadsheet:
+</p>
+<p>
+	<input type="text" bind:value="link" on:change="handleLink(link)">
+</p>
+<script>
+// https://docs.google.com/spreadsheets/d/1gtpi3iWO_ypLzTDvgfedt4un9PxqgjH-g1M8mwr_85M/edit#gid=1885023306
+export default {
+	data() {
+		return {
+			link: ''
+		}
+	},
+	methods: {
+		handleLink(link) {
+			console.log(link)
+			const match = /\/d\/([^/]+)/.exec(link)
+			if (match) {
+				const sheetId = match[1]
+				this.get('call')('stateGo', 'app.viewSpreadsheet', { sheetId })
+			}
+		}
+	}
+}
+</script>
