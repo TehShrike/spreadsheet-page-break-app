@@ -10,11 +10,8 @@
 <script>
 	export default {
 		methods: {
-			call(...args) {
-				return this.get('call')(...args)
-			},
 			beginAuth() {
-				this.call('gapi signIn').then(response => {
+				this.fire('call', 'gapi signIn').then(response => {
 					this.call('stateGo', 'app.selectSpreadsheet')
 				}, error => {
 					console.log('error', error)
