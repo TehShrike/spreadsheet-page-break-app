@@ -5,21 +5,26 @@ const {
 	stripEmptyRowsFromEnd,
 	splitRowsIntoPages,
 	cellIsBold,
-	getCellDisplayValue
+	getCellDisplayValue,
+	filterColumns
 } = require('./sheet-parser')
 
 module.exports = function transformSpreadsheetForDisplay(result) {
 	const sheet = getSheetFromResult(result, 0)
-	const { header, rows } = stripHeaderFromRows(sheet)
+	const { headers, rows } = filterColumns(stripHeaderFromRows(sheet), columnFilter)
 	const nonEmptyRows = stripEmptyRowsFromEnd(rows)
 	const pagesOfRows = splitRowsIntoPages(nonEmptyRows)
 
 	const pagesForDisplay = pagesOfRows.map(transformRowsForDisplay)
 
 	return {
-		header,
+		headers,
 		pages: pagesForDisplay
 	}
+}
+
+function columnFilter(header) {
+	return header && !header.toLowerCase().includes('question')
 }
 
 function transformRowsForDisplay(rows) {

@@ -26,6 +26,7 @@
     "babel-register": "6.22.0",
     "babelify": "7.3.0",
     "browserify": "14.0.0",
+    "combine-arrays": "1.0.2",
     "eventemitter3": "2.0.2",
     "mannish": "git@github.com:TehShrike/mannish.git#single-provider-only",
     "p-waterfall": "1.0.0",

@@ -8,7 +8,8 @@ const {
 	stripHeaderFromRows,
 	stripEmptyRowsFromEnd,
 	splitRowsIntoPages,
-	cellIsBold
+	cellIsBold,
+	filterColumns
 } = require('./sheet-parser')
 
 const result = Object.freeze(require('./test-result-fixture.json'))
@@ -58,12 +59,12 @@ test(`Detecting colored row`, t => {
 	t.end()
 })
 
-test(`Pull apart header and other rows`, t => {
+test(`Pull apart headers and other rows`, t => {
 	const sheet = getSheetFromResult(result, 0)
-	const { header, rows } = stripHeaderFromRows(sheet)
+	const { headers, rows } = stripHeaderFromRows(sheet)
 
-	t.equal(header[0], 'Cello Level 2')
-	t.equal(header[2], 'Category')
+	t.equal(headers[0], 'Cello Level 2')
+	t.equal(headers[2], 'Category')
 
 	t.equal(rows.length, 351)
 
@@ -100,6 +101,25 @@ test(`Detecting boldness`, t => {
 	t.notOk(cellIsBold(thirdCell(rows[28])))
 
 	t.ok(cellIsBold(thirdCell(rows[29])))
+
+	t.end()
+})
+
+test(`Filter out columns that don't start with C`, t => {
+	const sheet = getSheetFromResult(result, 0)
+	const { headers: originalHeaders, rows: originalRow } = stripHeaderFromRows(sheet)
+
+	let expectedNumber = 0
+	function filter(header, i) {
+		t.equal(i, expectedNumber)
+		expectedNumber++
+		return header && header[0].toLowerCase() === 'c'
+	}
+
+	const { headers, rows } = filterColumns({ headers: originalHeaders, rows: originalRow }, filter)
+
+	t.equal(headers.length, 2)
+	t.equal(getCellsFromRow(rows[0]).length, 2)
 
 	t.end()
 })

@@ -1,3 +1,5 @@
+const combine = require('combine-arrays')
+
 function getSheetFromResult(result, sheetNumber) {
 	return result.sheets[sheetNumber]
 }
@@ -8,6 +10,12 @@ function getRowsFromSheet(sheet) {
 
 function getCellsFromRow(rowData) {
 	return rowData.values
+}
+
+function getRowFromCells(cells) {
+	return {
+		values: cells
+	}
 }
 
 function cellIsColored(cellData) {
@@ -25,10 +33,10 @@ function stripHeaderFromRows(sheet) {
 	const rows = getRowsFromSheet(sheet)
 
 	const headerRow = frozenRows > 0 ? rows[frozenRows - 1] : null
-	const header = getCellsFromRow(headerRow).map(getCellDisplayValue)
+	const headers = getCellsFromRow(headerRow).map(getCellDisplayValue)
 
 	return {
-		header,
+		headers,
 		rows: rows.slice(frozenRows)
 	}
 }
@@ -85,6 +93,31 @@ function cellIsBold(cell) {
 	return cell.effectiveFormat && cell.effectiveFormat.textFormat.bold
 }
 
+function filterColumns({ headers, rows }, filterFn) {
+	const filterValues = headers.map((header, i) => {
+		return !!filterFn(header, i)
+	})
+
+	const filteredHeaders = combine({ headers, filterValues })
+		.filter(({ filterValues }) => filterValues)
+		.map(({ headers }) => headers)
+
+	const filteredRows = rows.map(row => {
+		const cells = getCellsFromRow(row)
+
+		const filteredCells = combine({ cells, filterValues })
+			.filter(({ filterValues }) => filterValues)
+			.map(({ cells }) => cells)
+
+		return getRowFromCells(filteredCells)
+	})
+
+	return {
+		headers: filteredHeaders,
+		rows: filteredRows
+	}
+}
+
 module.exports = {
 	getSheetFromResult,
 	getRowsFromSheet,
@@ -95,6 +128,7 @@ module.exports = {
 	stripEmptyRowsFromEnd,
 	splitRowsIntoPages,
 	cellIsBold,
-	getCellDisplayValue
+	getCellDisplayValue,
+	filterColumns
 }
 
