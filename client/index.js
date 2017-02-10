@@ -3,6 +3,7 @@ require('babel-polyfill')
 const StateRouter = require('abstract-state-router')
 const makeSvelteStateRenderer = require('svelte-state-renderer')
 const mannish = require('mannish')
+const createView = require('./view')
 
 const mediator = mannish()
 
@@ -23,47 +24,7 @@ const stateRouter = StateRouter(renderer, document.getElementById('container'))
 
 mediator.provide('stateGo', stateRouter.go)
 
-stateRouter.addState({
-	name: 'sheetsSignIn',
-	route: 'sheets-sign-in',
-	template: require('./component/sheetsSignIn.html')
-})
-
-stateRouter.addState({
-	name: 'app',
-	route: 'app',
-	template: require('./component/app.html'),
-	resolve: async (data, parameters) => {
-		const signedIn = await mediator.call('gapi:isSignedIn')
-
-		if (signedIn) {
-			return {}
-		} else {
-			return Promise.reject({
-				redirectTo: {
-					name: 'sheetsSignIn'
-				}
-			})
-		}
-	}
-})
-
-stateRouter.addState({
-	name: 'app.selectSpreadsheet',
-	route: 'select-spreadsheet',
-	template: require('./component/selectSpreadsheet.html')
-})
-
-stateRouter.addState({
-	name: 'app.viewSpreadsheet',
-	route: 'view/:sheetId',
-	template: require('./component/viewSpreadsheet.html'),
-	resolve: async (data, { sheetId }) => {
-		console.log('loading', sheetId)
-
-		return {}
-	}
-})
+createView(mediator).forEach(stateRouter.addState)
 
 const statefulModules = [
 	require('./service/googleApi')
