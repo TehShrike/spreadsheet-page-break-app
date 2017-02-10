@@ -19,21 +19,40 @@ module.exports = async function googleApiWrapper({ config, mediator }) {
 async function createGoogleApiWrapper(googleApi, clientId) {
 	const initializationPromise = await initializeGoogleApi(googleApi, clientId)
 
-	const initializeFn = () => initializationPromise
-
 	const signedInWatcher = createSignedInWatcher(googleApi)
 
-	return {
-		signIn: () => waterfall([
-			initializeFn,
-			async () => {
-				googleApi.auth2.getAuthInstance().signIn()
+	function makeAllFunctionsAwaitOnInitialization(mapOfFunctions) {
+		const awaitingFunctions = {}
 
+		Object.keys(mapOfFunctions).forEach(name => {
+			const originalFunction = mapOfFunctions[name]
+			awaitingFunctions[name] = async function(...args) {
+				// if this is an arrow function, the ...args below doesn't work 0_o
+				await initializationPromise
 				await signedInWatcher.awaitSignIn()
+				return originalFunction(...args)
 			}
-		]),
-		isSignedIn: () => waterfall([ initializeFn, signedInWatcher.isSignedIn ])
+		})
+
+		return awaitingFunctions
 	}
+
+	return makeAllFunctionsAwaitOnInitialization({
+		async signIn() {
+			googleApi.auth2.getAuthInstance().signIn()
+
+			await signedInWatcher.awaitSignIn()
+		},
+		async isSignedIn() {
+			return signedInWatcher.isSignedIn()
+		},
+		async getSpreadsheet(spreadsheetId) {
+			return googleApi.client.sheets.spreadsheets.get({
+				spreadsheetId,
+				includeGridData: true
+			}).then(response => response.result)
+		}
+	})
 }
 
 async function initializeGoogleApi(googleApi, clientId) {

@@ -4,9 +4,9 @@
   "description": "Make spreadsheets printable",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tape client/**/*.test.js",
     "build": "browserify client/index.js -o public/build.js",
-    "watch": "watchify client/index.js -o public/build.js -d"
+    "watch": "watchify -d client/index.js -o public/build.js"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "nodemon": "1.11.0",
+    "tape": "4.6.3",
     "watchify": "3.9.0"
   },
   "browserify": {
