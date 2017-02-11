@@ -26,16 +26,17 @@ module.exports = function createView(mediator) {
 		template: require('./component/selectSpreadsheet.html')
 	}, {
 		name: 'app.viewSpreadsheet',
+		defaultChild: 'teacher',
 		route: 'view/:spreadsheetId',
 		template: require('./component/viewSpreadsheet.html'),
 		resolve: async (data, { spreadsheetId }) => {
-			const transformSpreadsheetForDisplay = require('./lib/transform-spreadsheet-for-display')
-
-			const spreadsheet = await mediator.call('gapi:getSpreadsheet', spreadsheetId)
-
-			const forDisplay = transformSpreadsheetForDisplay(spreadsheet)
-			console.log(forDisplay)
-			return forDisplay
+			return {
+				spreadsheet: await mediator.call('gapi:getSpreadsheet', spreadsheetId)
+			}
 		}
+	}, {
+		name: 'app.viewSpreadsheet.teacher',
+		route: 'teacher',
+		template: require('./component/teacher.html')
 	}]
 }

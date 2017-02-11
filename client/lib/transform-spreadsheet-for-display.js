@@ -9,7 +9,7 @@ const {
 	filterColumns
 } = require('./sheet-parser')
 
-module.exports = function transformSpreadsheetForDisplay(result) {
+module.exports = function transformSpreadsheetForDisplay(result, columnFilter) {
 	const sheet = getSheetFromResult(result, 0)
 	const { headers, rows } = filterColumns(stripHeaderFromRows(sheet), columnFilter)
 	const nonEmptyRows = stripEmptyRowsFromEnd(rows)
@@ -21,10 +21,6 @@ module.exports = function transformSpreadsheetForDisplay(result) {
 		headers,
 		pages: pagesForDisplay
 	}
-}
-
-function columnFilter(header) {
-	return header && !header.toLowerCase().includes('question')
 }
 
 function transformRowsForDisplay(rows) {

@@ -1,7 +1,13 @@
-<h1>Viewing a spreadsheet</h1>
-<p>printable stuff goes here</p>
-<script>
-export default {
+<h1 class="no-print">Viewing {{title}}</h1>
+<uiView></uiView>
 
+<script>
+const { getSheetFromResult } = require('../lib/sheet-parser')
+
+export default {
+	computed: {
+		sheet: spreadsheet => getSheetFromResult(spreadsheet, 0),
+		title: sheet => sheet && sheet.properties.title
+	}
 }
 </script>

@@ -27,3 +27,14 @@
 	padding-top: 4px;
 	padding-bottom: 4px;
 }
+
+
+.page {
+	page-break-after: always;
+}
+
+@media print {
+	.no-print {
+		display: none;
+	}
+}

@@ -2,30 +2,34 @@
 	Pick your spreadsheet
 </h1>
 <p>
-	Eventually this will be a fancy Google Docs picker.
+	Paste in the link to the spreadsheet:
 </p>
-<p>
-	For now, paste in the link to the spreadsheet:
-</p>
-<p>
-	<form class="pure-form">
-		<input type="text" bind:value="link" on:change="handleLink(link)">
-	</form>
-</p>
+{{#if loadingSpreadsheet}}
+	<strong>Loading...</strong>
+{{else}}
+	<p>
+		<form class="pure-form">
+			<input type="text" bind:value="link" on:input="handleLink(link)">
+		</form>
+	</p>
+{{/if}}
 <script>
 // https://docs.google.com/spreadsheets/d/1gtpi3iWO_ypLzTDvgfedt4un9PxqgjH-g1M8mwr_85M/edit#gid=1885023306
 export default {
 	data() {
 		return {
-			link: ''
+			link: '',
+			loadingSpreadsheet: false
 		}
 	},
 	methods: {
 		handleLink(link) {
-			console.log(link)
 			const match = /\/d\/([^/]+)/.exec(link)
 			if (match) {
 				const spreadsheetId = match[1]
+				this.set({
+					loadingSpreadsheet: true
+				})
 				this.get('call')('stateGo', 'app.viewSpreadsheet', { spreadsheetId })
 			}
 		}

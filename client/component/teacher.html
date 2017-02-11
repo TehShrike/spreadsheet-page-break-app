@@ -1,0 +1,66 @@
+<h2 class="no-print">
+	Teacher report
+</h2>
+{{#each pages as page}}
+	<div class="page">
+		<table class="pure-table">
+			<caption>
+				{{title}}
+			</caption>
+			<thead>
+				<tr>
+					{{#each headers as header}}
+						<th>{{header}}</th>
+					{{/each}}
+				</tr>
+			</thead>
+			<tbody>
+				{{#each page as row}}
+					<tr>
+						{{#each row as cell}}
+							<td data-bold="{{cell.bold}}">
+								{{#if cell.text}}
+									{{cell.text}}
+								{{/if}}
+							</td>
+						{{/each}}
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+{{/each}}
+
+<style>
+	[data-bold=true] {
+		font-weight: bold;
+	}
+	thead {
+		text-align: center;
+	}
+	th {
+		min-width: 5em;
+	}
+	tbody {
+		font-size: 12px;
+	}
+</style>
+
+<script>
+
+const transformSpreadsheetForDisplay = require('../lib/transform-spreadsheet-for-display')
+const { getSheetFromResult } = require('../lib/sheet-parser')
+
+function columnFilter(header) {
+	return header && !header.toLowerCase().includes('question')
+}
+
+export default {
+	computed: {
+		headersAndRows: spreadsheet => transformSpreadsheetForDisplay(spreadsheet, columnFilter),
+		headers: headersAndRows => headersAndRows.headers,
+		pages: headersAndRows => headersAndRows.pages,
+		title: spreadsheet => getSheetFromResult(spreadsheet, 0).properties.title,
+	}
+}
+</script>
