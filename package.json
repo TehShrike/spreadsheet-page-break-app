@@ -29,12 +29,10 @@
     "combine-arrays": "1.0.2",
     "eventemitter3": "2.0.2",
     "mannish": "git@github.com:TehShrike/mannish.git#single-provider-only",
-    "p-waterfall": "1.0.0",
     "svelte-state-renderer": "1.1.0",
     "sveltify": "1.0.3"
   },
   "devDependencies": {
-    "nodemon": "1.11.0",
     "tape": "4.6.3",
     "watchify": "3.9.0"
   },
