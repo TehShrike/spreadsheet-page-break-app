@@ -33,6 +33,10 @@
 	page-break-after: always;
 }
 
+.big-text {
+	font-size: 125%;
+}
+
 @media print {
 	.no-print {
 		display: none;

@@ -1,22 +1,31 @@
-<div>
-	<h1>Welcome to the app</h1>
-	<p>You need to auth for anything to work</p>
+<Centered>
+	<h1>Spreadsheet page breaks</h1>
 	<p>
-		<button on:click="beginAuth()" class="pure-button">
-			Clicky click
+		<button on:click="beginAuth()" class="pure-button pure-button-primary big-text authenticate-button">
+			Click here to authenticate with Google Docs
 		</button>
 	</p>
-</div>
+</Centered>
+
+<style>
+.authenticate-button {
+	padding: 2em;
+}
+</style>
+
 <script>
-	export default {
-		methods: {
-			beginAuth() {
-				this.get('call')('gapi:signIn').then(response => {
-					this.get('call')('stateGo', 'app.selectSpreadsheet')
-				}, error => {
-					console.log('error', error)
-				})
-			}
+export default {
+	methods: {
+		beginAuth() {
+			this.get('call')('gapi:signIn').then(response => {
+				this.get('call')('stateGo', 'app.selectSpreadsheet')
+			}, error => {
+				console.log('error', error)
+			})
 		}
+	},
+	components: {
+		Centered: require('./centeredContent.html')
 	}
+}
 </script>

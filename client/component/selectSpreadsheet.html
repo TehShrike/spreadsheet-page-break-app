@@ -1,18 +1,27 @@
-<h1>
-	Pick your spreadsheet
-</h1>
-<p>
-	Paste in the link to the spreadsheet:
-</p>
-{{#if loadingSpreadsheet}}
-	<strong>Loading...</strong>
-{{else}}
+<Centered>
+	<h1>
+		Pick your spreadsheet
+	</h1>
 	<p>
-		<form class="pure-form">
-			<input type="text" bind:value="link" on:input="handleLink(link)">
-		</form>
+		Paste in the link to the spreadsheet:
 	</p>
-{{/if}}
+	{{#if loadingSpreadsheet}}
+		<strong>Loading...</strong>
+	{{else}}
+		<p>
+			<form class="pure-form">
+				<input
+					type="text"
+					class="big-text"
+					ref:spreadsheetUrl
+					bind:value="link"
+					on:input="handleLink(link)"
+				>
+			</form>
+		</p>
+	{{/if}}
+</Centered>
+
 <script>
 // https://docs.google.com/spreadsheets/d/1gtpi3iWO_ypLzTDvgfedt4un9PxqgjH-g1M8mwr_85M/edit#gid=1885023306
 export default {
@@ -21,6 +30,9 @@ export default {
 			link: '',
 			loadingSpreadsheet: false
 		}
+	},
+	onrender() {
+		this.refs.spreadsheetUrl.focus()
 	},
 	methods: {
 		handleLink(link) {
@@ -33,6 +45,9 @@ export default {
 				this.get('call')('stateGo', 'app.viewSpreadsheet', { spreadsheetId })
 			}
 		}
+	},
+	components: {
+		Centered: require('./centeredContent.html')
 	}
 }
 </script>
