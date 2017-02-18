@@ -1,5 +1,4 @@
 const EventEmitter = require('eventemitter')
-const waterfall = require('p-waterfall')
 
 const DISCOVERY_DOCS = [ 'https://sheets.googleapis.com/$discovery/rest?version=v4' ]
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
@@ -29,7 +28,7 @@ async function createGoogleApiWrapper(googleApi, clientId) {
 			awaitingFunctions[name] = async function(...args) {
 				// if this is an arrow function, the ...args below doesn't work 0_o
 				await initializationPromise
-				await signedInWatcher.awaitSignIn()
+
 				return originalFunction(...args)
 			}
 		})
