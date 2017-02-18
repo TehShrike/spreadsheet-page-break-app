@@ -1,25 +1,27 @@
 <Centered>
-	<h1>
-		Pick your spreadsheet
-	</h1>
-	<p>
-		Paste in the link to the spreadsheet:
-	</p>
-	{{#if loadingSpreadsheet}}
-		<strong>Loading...</strong>
-	{{else}}
+	<div class="text-center">
+		<h1>
+			Pick your spreadsheet
+		</h1>
 		<p>
-			<form class="pure-form">
-				<input
-					type="text"
-					class="big-text"
-					ref:spreadsheetUrl
-					bind:value="link"
-					on:input="handleLink(link)"
-				>
-			</form>
+			Paste in the link to the spreadsheet:
 		</p>
-	{{/if}}
+		{{#if loadingSpreadsheet}}
+			<strong>Loading...</strong>
+		{{else}}
+			<p>
+				<form class="pure-form">
+					<input
+						type="text"
+						class="big-text"
+						ref:spreadsheetUrl
+						bind:value="link"
+						on:input="handleLink(link)"
+					>
+				</form>
+			</p>
+		{{/if}}
+	</div>
 </Centered>
 
 <script>

@@ -18,6 +18,10 @@
 	justify-content: center;
 }
 
+.text-center {
+	text-align: center;
+}
+
 .pad-sides {
 	padding-left: 16px;
 	padding-right: 16px;
