@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "tape client/**/*.test.js",
-    "build": "browserify client/index.js -o public/build.js",
+    "build": "npm run glob && browserify client/index.js -o public/build.js",
     "watch": "watchify -d client/index.js -o public/build.js",
-    "glob": "glob-module-file --pattern=\"client/service/**/*.js\" > client/services.js"
+    "watch-glob": "watch \"npm run glob\" client/service client/view",
+    "glob": "npm run glob-services && npm run glob-views",
+    "glob-services": "glob-module-file --pattern=\"client/service/**/*.js\" --pathPrefix=../ --outputPath=client/globbed-services.js",
+    "glob-views": "glob-module-file --pattern=\"client/view/**/*.js\" --pathPrefix=../ --outputPath=client/globbed-views.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "tape": "4.6.3",
+    "watch": "1.0.2",
     "watchify": "3.9.0"
   },
   "browserify": {

@@ -3,7 +3,7 @@ require('babel-polyfill')
 const StateRouter = require('abstract-state-router')
 const makeSvelteStateRenderer = require('svelte-state-renderer')
 const mannish = require('mannish')
-const createView = require('./view')
+const views = require('./globbed-views')
 
 const mediator = mannish()
 
@@ -17,9 +17,9 @@ const stateRouter = StateRouter(renderer, document.getElementById('container'))
 
 mediator.provide('stateGo', stateRouter.go)
 
-createView(mediator).forEach(stateRouter.addState)
+views.map(createView => createView(mediator)).forEach(stateRouter.addState)
 
-const statefulModules = require('./services.js')
+const statefulModules = require('./globbed-services')
 
 const moduleContext = {
 	mediator,

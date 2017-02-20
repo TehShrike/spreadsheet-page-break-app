@@ -48,8 +48,8 @@
 
 <script>
 
-const transformSpreadsheetForDisplay = require('../lib/transform-spreadsheet-for-display')
-const { getSheetFromResult } = require('../lib/sheet-parser')
+const transformSpreadsheetForDisplay = require('lib/transform-spreadsheet-for-display')
+const { getSheetFromResult } = require('lib/sheet-parser')
 
 function columnFilter(header) {
 	return header && !header.toLowerCase().includes('question')

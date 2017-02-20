@@ -1,0 +1,22 @@
+{
+  "name": "component",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": "es2015",
+          "plugins": [
+            "transform-async-to-generator"
+          ]
+        }
+      ],
+      [
+        "sveltify"
+      ]
+    ]
+  },
+  "browser": {
+    "eventemitter": "eventemitter3"
+  }
+}
