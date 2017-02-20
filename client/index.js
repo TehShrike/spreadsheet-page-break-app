@@ -19,9 +19,7 @@ mediator.provide('stateGo', stateRouter.go)
 
 createView(mediator).forEach(stateRouter.addState)
 
-const statefulModules = [
-	require('./service/googleApi')
-]
+const statefulModules = require('./services.js')
 
 const moduleContext = {
 	mediator,

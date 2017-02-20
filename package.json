@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tape client/**/*.test.js",
     "build": "browserify client/index.js -o public/build.js",
-    "watch": "watchify -d client/index.js -o public/build.js"
+    "watch": "watchify -d client/index.js -o public/build.js",
+    "glob": "glob-module-file --pattern=\"client/service/**/*.js\" > client/services.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "browserify": "14.0.0",
     "combine-arrays": "1.0.2",
     "eventemitter3": "2.0.2",
+    "glob-module-file": "2.0.0",
     "mannish": "git@github.com:TehShrike/mannish.git#single-provider-only",
     "svelte-state-renderer": "1.1.0",
     "sveltify": "1.0.3"
